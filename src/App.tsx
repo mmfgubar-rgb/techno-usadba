@@ -198,13 +198,13 @@ const services = [
     number: "04",
     name: "Фронтальный погрузчик",
     details: "Погрузка, разгрузка, планировка грунта, расчистка снега",
-    image: image("loader.png"),
+    image: image("front_mtz.jpg"),
   },
   {
     number: "05",
     name: "Мини-экскаватор-погрузчик",
     details: "Грузоподъёмность 400 кг · глубина копания 1,5 метра",
-    image: image("mini-excavator.jpg"),
+    image: image("loader.png"),
   },
   {
     number: "06",
@@ -214,7 +214,7 @@ const services = [
       "Расчистка снега",
       "Эвакуация транспорта",
     ],
-    image: image("loader.png"),
+    image: image("amcodor.jpg"),
   },
   {
     number: "07",
@@ -224,7 +224,7 @@ const services = [
       "Баня",
       "Рядом река Припять",
     ],
-    image: image("estate-living.jpg"),
+    image: image("usadba.jpg"),
   },
   {
     number: "08",
