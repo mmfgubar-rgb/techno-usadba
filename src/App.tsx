@@ -4,7 +4,7 @@ const image = (file: string) => `${import.meta.env.BASE_URL}images/${file}`
 
 type IconName = "arrow" | "check" | "chevron" | "close" | "location" | "menu" | "phone" | "tractor"
 
-function Icon({ name, size = 20 }: { name: IconName; size?: number }) {  
+function Icon({ name, size = 20 }: { name: IconName; size?: number }) {
   const paths: Record<IconName, ReactNode> = {
     arrow: (
       <>
@@ -177,41 +177,37 @@ const products = [
 
 const services = [
   {
-    name: "Фронтальный погрузчик",
-    details: "Погрузка, разгрузка, планировка грунта, расчистка снега",
-    image: image("loader.png"),
-  },
-  {
+    number: "02",
     name: "Грузовой самосвал",
     details: "10 тонн · доставка сыпучих материалов с самосвальной выгрузкой",
     image: image("dump-truck.webp"),
   },
   {
+    number: "03",
     name: "Автокран",
     details: "Грузоподъёмность 10 тонн · вылет стрелы 15 метров",
     image: image("crane.jpg"),
   },
   {
-    name: "Мини-экскаватор-погрузчик",
-    details: "Грузоподъёмность 400 кг · глубина копания 1,5 метра",
-    image: image("mini-excavator.jpg"),
-  },
-  {
+    number: "05",
     name: "Прокат прицепа МЗСА",
     details: "2,45 × 1,51 м · грузоподъёмность до 750 кг",
     image: image("trailer.jpg"),
   },
   {
-    name: "Пилорама",
-    details: "Распиловка древесины · доставка и реализация опилок",
-    image: image("sawmill.jpg"),
+    number: "01",
+    name: "Фронтальный погрузчик",
+    details: "Погрузка, разгрузка, планировка грунта, расчистка снега",
+    image: image("loader.png"),
   },
   {
-    name: "Туристические услуги",
-    details: "Прокат туристического снаряжения, лодок и катамарана",
-    image: image("gear.jpg"),
+    number: "04",
+    name: "Мини-экскаватор-погрузчик",
+    details: "Грузоподъёмность 400 кг · глубина копания 1,5 метра",
+    image: image("mini-excavator.jpg"),
   },
   {
+    number: "08",
     name: "Фронтальный погрузчик",
     points: [
       "Погрузка и разгрузка, паллетные вилы, снеговая лопата",
@@ -221,6 +217,7 @@ const services = [
     image: image("loader.png"),
   },
   {
+    number: "09",
     name: "Агроусадьба д. Макаричи",
     points: [
       "Дом для отдыха со всеми удобствами",
@@ -228,6 +225,18 @@ const services = [
       "Рядом река Припять",
     ],
     image: image("estate-living.jpg"),
+  },
+  {
+    number: "06",
+    name: "Пилорама",
+    details: "Распиловка древесины · доставка и реализация опилок",
+    image: image("sawmill.jpg"),
+  },
+  {
+    number: "07",
+    name: "Туристические услуги",
+    details: "Прокат туристического снаряжения, лодок и катамарана",
+    image: image("gear.jpg"),
   },
 ]
 
@@ -491,11 +500,11 @@ export default function App() {
               </Button>
             </div>
             <div className="services-grid">
-              {services.map((item, index) => (
+              {services.map((item) => (
                 <article className="service-card" key={item.name}>
                   <div className="service-card__image">
                     <img alt={item.name} loading="lazy" src={item.image} />
-                    <span>0{index + 1}</span>
+                    <span>{item.number}</span>
                   </div>
                   <div className="service-card__body">
                     <h3>{item.name}</h3>
