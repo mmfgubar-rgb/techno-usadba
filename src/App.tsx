@@ -4,7 +4,7 @@ const image = (file: string) => `${import.meta.env.BASE_URL}images/${file}`
 
 type IconName = "arrow" | "check" | "chevron" | "close" | "location" | "menu" | "phone" | "tractor"
 
-function Icon({ name, size = 20 }: { name: IconName; size?: number }) {
+function Icon({ name, size = 20 }: { name: IconName size?: number }) {
   const paths: Record<IconName, ReactNode> = {
     arrow: (
       <>
@@ -205,6 +205,29 @@ const services = [
     name: "Пилорама",
     details: "Распиловка древесины · доставка и реализация опилок",
     image: image("sawmill.jpg"),
+  },
+  {
+    name: "Туристические услуги",
+    details: "Прокат туристического снаряжения, лодок и катамарана",
+    image: image("gear.jpg"),
+  },
+  {
+    name: "Фронтальный погрузчик",
+    points: [
+      "Погрузка и разгрузка, паллетные вилы, снеговая лопата",
+      "Расчистка снега",
+      "Эвакуация транспорта",
+    ],
+    image: image("loader.png"),
+  },
+  {
+    name: "Агроусадьба д. Макаричи",
+    points: [
+      "Дом для отдыха со всеми удобствами",
+      "Баня",
+      "Рядом река Припять",
+    ],
+    image: image("estate-living.jpg"),
   },
 ]
 
@@ -476,7 +499,15 @@ export default function App() {
                   </div>
                   <div className="service-card__body">
                     <h3>{item.name}</h3>
-                    <p>{item.details}</p>
+                    {"points" in item && item.points ? (
+                      <ul className="service-card__list">
+                        {item.points.map((point) => (
+                          <li key={point}>{point}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p>{item.details}</p>
+                    )}
                     <Button href="#contacts" kind="text">
                       Оставить заявку
                       <Icon name="arrow" size={18} />
@@ -484,18 +515,6 @@ export default function App() {
                   </div>
                 </article>
               ))}
-            </div>
-            <div className="tourism-strip">
-              <img alt="Туристическое снаряжение" src={image("gear.jpg")} />
-              <div>
-                <span className="eyebrow">Для активного отдыха</span>
-                <h3>Прокат туристической экипировки</h3>
-                <p>
-                  Туристическая экипировка, снаряжение для активного отдыха,
-                  прокат лодок и катамарана.
-                </p>
-              </div>
-              <Button href="#contacts">Узнать подробнее</Button>
             </div>
           </div>
         </section>
