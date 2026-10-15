@@ -123,7 +123,7 @@ const directions = [
   {
     title: "Аренда спецтехники",
     text: "Техника для разных видов работ",
-    image: image("loader.png"),
+    image: image("crane.jpg"),
     href: "#services",
   },
   {
