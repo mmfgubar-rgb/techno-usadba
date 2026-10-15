@@ -4,7 +4,7 @@ const image = (file: string) => `${import.meta.env.BASE_URL}images/${file}`
 
 type IconName = "arrow" | "check" | "chevron" | "close" | "location" | "menu" | "phone" | "tractor"
 
-function Icon({ name, size = 20 }: { name: IconName size?: number }) {
+function Icon({ name, size = 20 }: { name: IconName; size?: number }) {
   const paths: Record<IconName, ReactNode> = {
     arrow: (
       <>
