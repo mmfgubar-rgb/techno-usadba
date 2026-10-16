@@ -1,4 +1,6 @@
-import { FormEvent, ReactNode, useState } from "react"
+import { FormEvent, ReactNode, useEffect, useState } from "react"
+import DirectionPage from "./pages/DirectionPage"
+import { directionDetails, type DirectionSlug } from "./data/directions"
 
 const image = (file: string) => `${import.meta.env.BASE_URL}images/${file}`
 
@@ -106,43 +108,50 @@ const directions = [
     title: "Строительные материалы",
     text: "Песок, щебень и отсев",
     image: image("sand.jpg"),
-    href: "#sale",
+    slug: "building-materials",
+    href: "#/directions/building-materials",
   },
   {
     title: "Металлопрокат",
     text: "Труба, арматура, лист и другое",
     image: image("metal.jpg"),
-    href: "#sale",
+    slug: "metal-products",
+    href: "#/directions/metal-products",
   },
   {
     title: "Комбикорма",
     text: "Молотые и гранулированные",
     image: image("feed.webp"),
-    href: "#sale",
+    slug: "animal-feed",
+    href: "#/directions/animal-feed",
   },
   {
     title: "Аренда спецтехники",
     text: "Техника для разных видов работ",
-    image: image("crane.jpg"),
-    href: "#services",
+    image: image("loader.png"),
+    slug: "special-machinery",
+    href: "#/directions/special-machinery",
   },
   {
     title: "Пилорама",
     text: "Распиловка древесины",
     image: image("sawmill.jpg"),
-    href: "#services",
+    slug: "sawmill",
+    href: "#/directions/sawmill",
   },
   {
     title: "Агроусадьба и баня",
     text: "Отдых рядом с рекой Припять",
     image: image("estate-living.jpg"),
-    href: "#rest",
+    slug: "guest-house",
+    href: "#/directions/guest-house",
   },
   {
     title: "Туристический прокат",
     text: "Экипировка, лодки и катамаран",
     image: image("tourism.jpg"),
-    href: "#services",
+    slug: "tourist-rental",
+    href: "#/directions/tourist-rental",
   },
 ]
 
@@ -177,66 +186,34 @@ const products = [
 
 const services = [
   {
-    number: "01",
+    name: "Фронтальный погрузчик",
+    details: "Погрузка, разгрузка, планировка грунта, расчистка снега",
+    image: image("loader.png"),
+  },
+  {
     name: "Грузовой самосвал",
     details: "10 тонн · доставка сыпучих материалов с самосвальной выгрузкой",
     image: image("dump-truck.webp"),
   },
   {
-    number: "02",
     name: "Автокран",
     details: "Грузоподъёмность 10 тонн · вылет стрелы 15 метров",
     image: image("crane.jpg"),
   },
   {
-    number: "03",
+    name: "Мини-экскаватор-погрузчик",
+    details: "Грузоподъёмность 400 кг · глубина копания 1,5 метра",
+    image: image("mini-excavator.jpg"),
+  },
+  {
     name: "Прокат прицепа МЗСА",
     details: "2,45 × 1,51 м · грузоподъёмность до 750 кг",
     image: image("trailer.jpg"),
   },
   {
-    number: "04",
-    name: "Фронтальный погрузчик",
-    details: "Погрузка, разгрузка, планировка грунта, расчистка снега",
-    image: image("front_mtz.jpg"),
-  },
-  {
-    number: "05",
-    name: "Мини-экскаватор-погрузчик",
-    details: "Грузоподъёмность 400 кг · глубина копания 1,5 метра",
-    image: image("loader.png"),
-  },
-  {
-    number: "06",
-    name: "Фронтальный погрузчик",
-    points: [
-      "Погрузка и разгрузка, паллетные вилы, снеговая лопата",
-      "Расчистка снега",
-      "Эвакуация транспорта",
-    ],
-    image: image("amcodor.jpg"),
-  },
-  {
-    number: "07",
-    name: "Агроусадьба д. Макаричи",
-    points: [
-      "Дом для отдыха со всеми удобствами",
-      "Баня",
-      "Рядом река Припять",
-    ],
-    image: image("usadba.jpg"),
-  },
-  {
-    number: "08",
     name: "Пилорама",
     details: "Распиловка древесины · доставка и реализация опилок",
     image: image("sawmill.jpg"),
-  },
-  {
-    number: "09",
-    name: "Туристические услуги",
-    details: "Прокат туристического снаряжения, лодок и катамарана",
-    image: image("gear.jpg"),
   },
 ]
 
@@ -250,6 +227,7 @@ function Header() {
           <a className="is-active" href="#top">
             Главная
           </a>
+          <a href="#directions">Направления</a>
           <a href="#sale">Продажа</a>
           <a href="#services">Услуги</a>
           <a href="#contacts">Контакты</a>
@@ -276,6 +254,7 @@ function Header() {
           <nav aria-label="Мобильная навигация">
             {[
               ["#top", "Главная"],
+              ["#directions", "Направления"],
               ["#sale", "Продажа"],
               ["#services", "Услуги"],
               ["#contacts", "Контакты"],
@@ -368,7 +347,73 @@ function ContactForm() {
   )
 }
 
+function DirectionRoute({ slug }: { slug: string }) {
+  const isValidSlug = Object.prototype.hasOwnProperty.call(directionDetails, slug)
+  if (!isValidSlug) {
+    return (
+      <div id="top">
+        <Header />
+        <main className="direction-detail direction-detail--missing">
+          <div className="container">
+            <p>Такое направление не найдено.</p>
+            <a className="button button--primary" href="#directions">Вернуться к направлениям</a>
+          </div>
+        </main>
+      </div>
+    )
+  }
+
+  return (
+    <div id="top">
+      <Header />
+      <DirectionPage slug={slug as DirectionSlug} />
+      <footer className="footer">
+        <div className="container footer__top">
+          <Brand inverse />
+          <nav aria-label="Навигация в подвале">
+            <a href="#top">Главная</a>
+            <a href="#directions">Направления</a>
+            <a href="#sale">Продажа</a>
+            <a href="#services">Услуги</a>
+            <a href="#contacts">Контакты</a>
+          </nav>
+          <a className="footer__phone" href="tel:+375298417438">
+            <small>Связаться с нами</small>+375 29 841-74-38
+          </a>
+        </div>
+        <div className="container footer__bottom">
+          <span>© 2026 ТЕХНОУСАДЬБА</span>
+          <span>Петриков, Беларусь</span>
+        </div>
+      </footer>
+    </div>
+  )
+}
+
 export default function App() {
+  const [currentHash, setCurrentHash] = useState(
+    typeof window === "undefined" ? "" : window.location.hash,
+  )
+
+  useEffect(() => {
+    const syncHash = () => setCurrentHash(window.location.hash)
+    window.addEventListener("hashchange", syncHash)
+    return () => window.removeEventListener("hashchange", syncHash)
+  }, [])
+
+  useEffect(() => {
+    if (!currentHash || currentHash.startsWith("#/directions/")) return
+    const targetId = currentHash.slice(1)
+    document.getElementById(targetId)?.scrollIntoView()
+  }, [currentHash])
+
+  const detailMatch = currentHash.match(/^#\/directions\/([^/]+)$/)
+  const detailSlug = detailMatch?.[1]
+
+  if (detailSlug) {
+    return <DirectionRoute slug={detailSlug} />
+  }
+
   return (
     <div id="top">
       <Header />
@@ -500,23 +545,15 @@ export default function App() {
               </Button>
             </div>
             <div className="services-grid">
-              {services.map((item) => (
+              {services.map((item, index) => (
                 <article className="service-card" key={item.name}>
                   <div className="service-card__image">
                     <img alt={item.name} loading="lazy" src={item.image} />
-                    <span>{item.number}</span>
+                    <span>0{index + 1}</span>
                   </div>
                   <div className="service-card__body">
                     <h3>{item.name}</h3>
-                    {"points" in item && item.points ? (
-                      <ul className="service-card__list">
-                        {item.points.map((point) => (
-                          <li key={point}>{point}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p>{item.details}</p>
-                    )}
+                    <p>{item.details}</p>
                     <Button href="#contacts" kind="text">
                       Оставить заявку
                       <Icon name="arrow" size={18} />
@@ -524,6 +561,18 @@ export default function App() {
                   </div>
                 </article>
               ))}
+            </div>
+            <div className="tourism-strip">
+              <img alt="Туристическое снаряжение" src={image("gear.jpg")} />
+              <div>
+                <span className="eyebrow">Для активного отдыха</span>
+                <h3>Прокат туристической экипировки</h3>
+                <p>
+                  Туристическая экипировка, снаряжение для активного отдыха,
+                  прокат лодок и катамарана.
+                </p>
+              </div>
+              <Button href="#contacts">Узнать подробнее</Button>
             </div>
           </div>
         </section>
@@ -649,7 +698,8 @@ export default function App() {
           <Brand inverse />
           <nav aria-label="Навигация в подвале">
             <a href="#top">Главная</a>
-            <a href="#sale">Продажа</a>
+            <a href="#directions">Направления</a>
+          <a href="#sale">Продажа</a>
             <a href="#services">Услуги</a>
             <a href="#contacts">Контакты</a>
           </nav>
