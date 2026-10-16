@@ -402,7 +402,13 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    if (!currentHash || currentHash.startsWith("#/directions/")) return
+    if (currentHash.startsWith("#/directions/")) {
+      // Each detail page should open at the top, not at the previous scroll position.
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" })
+      return
+    }
+
+    if (!currentHash) return
     const targetId = currentHash.slice(1)
     document.getElementById(targetId)?.scrollIntoView()
   }, [currentHash])
