@@ -601,19 +601,7 @@ export default function App() {
                 </article>
               ))}
             </div>
-            <div className="tourism-strip">
-              <img alt="Туристическое снаряжение" src={image("gear.jpg")} />
-              <div>
-                <span className="eyebrow">Для активного отдыха</span>
-                <h3>Прокат туристической экипировки</h3>
-                <p>
-                  Туристическая экипировка, снаряжение для активного отдыха,
-                  прокат лодок и катамарана.
-                </p>
-              </div>
-              <Button href="#contacts">Узнать подробнее</Button>
-            </div>
-          </div>
+           </div>
         </section>
 
         <section className="rest section" id="rest">
