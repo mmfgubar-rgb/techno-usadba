@@ -128,7 +128,7 @@ const directions = [
   {
     title: "Аренда спецтехники",
     text: "Техника для разных видов работ",
-    image: image("loader.png"),
+    image: image("crane.jpg"),
     slug: "special-machinery",
     href: "#/directions/special-machinery",
   },
@@ -186,35 +186,68 @@ const products = [
 
 const services = [
   {
-    name: "Фронтальный погрузчик",
-    details: "Погрузка, разгрузка, планировка грунта, расчистка снега",
-    image: image("loader.png"),
-  },
-  {
+    number: "01",
     name: "Грузовой самосвал",
     details: "10 тонн · доставка сыпучих материалов с самосвальной выгрузкой",
     image: image("dump-truck.webp"),
   },
   {
+    number: "02",
     name: "Автокран",
     details: "Грузоподъёмность 10 тонн · вылет стрелы 15 метров",
     image: image("crane.jpg"),
   },
   {
-    name: "Мини-экскаватор-погрузчик",
-    details: "Грузоподъёмность 400 кг · глубина копания 1,5 метра",
-    image: image("mini-excavator.jpg"),
-  },
-  {
+    number: "03",
     name: "Прокат прицепа МЗСА",
     details: "2,45 × 1,51 м · грузоподъёмность до 750 кг",
     image: image("trailer.jpg"),
   },
   {
+    number: "04",
+    name: "Фронтальный погрузчик",
+    details: "Погрузка, разгрузка, планировка грунта, расчистка снега",
+    image: image("front_mtz.jpg"),
+  },
+  {
+    number: "05",
+    name: "Мини-экскаватор-погрузчик",
+    details: "Грузоподъёмность 400 кг · глубина копания 1,5 метра",
+    image: image("loader.png"),
+  },
+  {
+    number: "06",
+    name: "Фронтальный погрузчик",
+    points: [
+      "Погрузка и разгрузка, паллетные вилы, снеговая лопата",
+      "Расчистка снега",
+      "Эвакуация транспорта",
+    ],
+    image: image("amcodor.jpg"),
+  },
+  {
+    number: "07",
+    name: "Агроусадьба д. Макаричи",
+    points: [
+      "Дом для отдыха со всеми удобствами",
+      "Баня",
+      "Рядом река Припять",
+    ],
+    image: image("usadba.jpg"),
+  },
+  {
+    number: "08",
     name: "Пилорама",
     details: "Распиловка древесины · доставка и реализация опилок",
     image: image("sawmill.jpg"),
   },
+  {
+    number: "09",
+    name: "Туристические услуги",
+    details: "Прокат туристического снаряжения, лодок и катамарана",
+    image: image("gear.jpg"),
+  },
+
 ]
 
 function Header() {
