@@ -71,7 +71,7 @@ export const directionDetails = {
   "special-machinery": {
     title: "Аренда спецтехники",
     subtitle: "Техника для погрузки, перевозки и выполнения работ на участке",
-    image: image("loader.png"),
+    image: image("crane.jpg"),
     description:
       "Предоставляем спецтехнику для строительных, погрузочных и хозяйственных задач. Перед заказом согласуем задачу, условия работы и доступность техники.",
     sections: [
