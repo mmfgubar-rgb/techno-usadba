@@ -1,6 +1,5 @@
-import { ReactNode, useEffect, useState } from "react"
+import { FormEvent, ReactNode, useEffect, useState } from "react"
 import DirectionPage from "./pages/DirectionPage"
-import ContactSection from "./ContactSection"
 import { directionDetails, type DirectionSlug } from "./data/directions"
 
 const image = (file: string) => `${import.meta.env.BASE_URL}images/${file}`
@@ -156,10 +155,103 @@ const directions = [
   },
 ]
 
+const products = [
+  {
+    name: "Песок строительный",
+    description: "Для выполнения строительных работ и подсыпки",
+    image: image("sand.jpg"),
+  },
+  {
+    name: "Щебень гранитный",
+    description: "Гранитный щебень разной фракции",
+    image: image("granite.jpg"),
+  },
+  {
+    name: "Отсев",
+    description: "Мелкий сыпучий материал с размером зёрен от 0 до 5 мм",
+    image: image("screenings.jpg"),
+  },
+  {
+    name: "Комбикорма",
+    description:
+      "Корма для домашнего хозяйства, молотые и гранулированные в ассортименте",
+    image: image("feed.webp"),
+  },
+  {
+    name: "Металлопрокат",
+    description: "Профильная труба, арматура, уголок, лист и другая продукция",
+    image: image("metal.jpg"),
+  },
+]
+
+const services = [
+  {
+    number: "01",
+    name: "Грузовой самосвал",
+    details: "10 тонн · доставка сыпучих материалов с самосвальной выгрузкой",
+    image: image("dump-truck.webp"),
+  },
+  {
+    number: "02",
+    name: "Автокран",
+    details: "Грузоподъёмность 10 тонн · вылет стрелы 15 метров",
+    image: image("crane.jpg"),
+  },
+  {
+    number: "03",
+    name: "Прокат прицепа МЗСА",
+    details: "2,45 × 1,51 м · грузоподъёмность до 750 кг",
+    image: image("trailer.jpg"),
+  },
+  {
+    number: "04",
+    name: "Фронтальный погрузчик",
+    details: "Погрузка, разгрузка, планировка грунта, расчистка снега",
+    image: image("front_mtz.jpg"),
+  },
+  {
+    number: "05",
+    name: "Мини-экскаватор-погрузчик",
+    details: "Грузоподъёмность 400 кг · глубина копания 1,5 метра",
+    image: image("loader.png"),
+  },
+  {
+    number: "06",
+    name: "Фронтальный погрузчик",
+    points: [
+      "Погрузка и разгрузка, паллетные вилы, снеговая лопата",
+      "Расчистка снега",
+      "Эвакуация транспорта",
+    ],
+    image: image("amcodor.jpg"),
+  },
+  {
+    number: "07",
+    name: "Агроусадьба д. Макаричи",
+    points: [
+      "Дом для отдыха со всеми удобствами",
+      "Баня",
+      "Рядом река Припять",
+    ],
+    image: image("usadba.jpg"),
+  },
+  {
+    number: "08",
+    name: "Пилорама",
+    details: "Распиловка древесины · доставка и реализация опилок",
+    image: image("sawmill.jpg"),
+  },
+  {
+    number: "09",
+    name: "Туристические услуги",
+    details: "Прокат туристического снаряжения, лодок и катамарана",
+    image: image("gear.jpg"),
+  },
+
+]
+
 function Header() {
   const [isOpen, setIsOpen] = useState(false)
-  const isDetailPage = typeof window !== "undefined" && window.location.hash.startsWith("#/directions/")
-  const homeHref = (id: string) => isDetailPage ? `${import.meta.env.BASE_URL}#${id}` : `#${id}`
   return (
     <header className="site-header">
       <div className="container header__inner">
@@ -168,13 +260,12 @@ function Header() {
           <a className="is-active" href="#top">
             Главная
           </a>
-          <a href={homeHref("directions")}>Направления</a>
-          <a href="#/directions/guest-house">Отдых в Макаричах</a>
+          <a href="#directions">Направления</a>
+          <a href="#sale">Продажа</a>
+          <a href="#services">Услуги</a>
           <a href="#contacts">Контакты</a>
         </nav>
         <div className="header__actions">
-          <a className="header__social-link" href="https://yandex.by/maps/-/CXBObByv" target="_blank" rel="noreferrer" aria-label="Открыть карту" title="Карта"><Icon name="location" size={19} /></a>
-          <a className="header__social-link" href="viber://chat?number=%2B375298417438" aria-label="Написать в Viber" title="Viber">V</a>
           <a className="header__phone" href="tel:+375298417438">
             <Icon name="phone" size={17} />
             +375 29 841-74-38
@@ -196,8 +287,9 @@ function Header() {
           <nav aria-label="Мобильная навигация">
             {[
               ["#top", "Главная"],
-              [homeHref("directions"), "Направления"],
-              ["#/directions/guest-house", "Отдых в Макаричах"],
+              ["#directions", "Направления"],
+              ["#sale", "Продажа"],
+              ["#services", "Услуги"],
               ["#contacts", "Контакты"],
             ].map(([href, label]) => (
               <a href={href} key={href} onClick={() => setIsOpen(false)}>
@@ -233,6 +325,61 @@ function SectionHeading({
   )
 }
 
+function ContactForm() {
+  const [sent, setSent] = useState(false)
+  const submit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setSent(true)
+  }
+  return (
+    <form className="contact-form" onSubmit={submit}>
+      <div className="form-row">
+        <label>
+          Ваше имя
+          <input name="name" placeholder="Как к вам обращаться" required />
+        </label>
+        <label>
+          Телефон
+          <input
+            name="phone"
+            pattern="[+0-9 ()-]{7,}"
+            placeholder="+375"
+            required
+            type="tel"
+          />
+        </label>
+      </div>
+      <label>
+        Сообщение
+        <textarea
+          name="message"
+          placeholder="Кратко опишите, что вас интересует"
+          required
+          rows={4}
+        />
+      </label>
+      <label className="consent">
+        <input name="consent" required type="checkbox" />
+        <span>
+          Я согласен(на) на обработку персональных данных для обратной связи
+        </span>
+      </label>
+      <Button type="submit">Отправить заявку</Button>
+      <p aria-live="polite" className={`form-note ${sent ? "is-success" : ""}`}>
+        {sent ? (
+          <>
+            <Icon name="check" size={18} />
+            Демонстрация: форма заполнена. Для отправки нужно подключить
+            обработчик.
+          </>
+        ) : (
+          "Перезвоним по указанному номеру после подключения обработчика формы."
+        )}
+      </p>
+    </form>
+  )
+}
+
 function DirectionRoute({ slug }: { slug: string }) {
   const isValidSlug = Object.prototype.hasOwnProperty.call(directionDetails, slug)
   if (!isValidSlug) {
@@ -242,7 +389,7 @@ function DirectionRoute({ slug }: { slug: string }) {
         <main className="direction-detail direction-detail--missing">
           <div className="container">
             <p>Такое направление не найдено.</p>
-            <a className="button button--primary" href={`${import.meta.env.BASE_URL}#directions`}>Вернуться к направлениям</a>
+            <a className="button button--primary" href="#directions">Вернуться к направлениям</a>
           </div>
         </main>
       </div>
@@ -258,14 +405,11 @@ function DirectionRoute({ slug }: { slug: string }) {
           <Brand inverse />
           <nav aria-label="Навигация в подвале">
             <a href="#top">Главная</a>
-            <a href={`${import.meta.env.BASE_URL}#directions`}>Направления</a>
-            <a href="#/directions/guest-house">Отдых в Макаричах</a>
-            <a href={`${import.meta.env.BASE_URL}#contacts`}>Контакты</a>
+            <a href="#directions">Направления</a>
+            <a href="#sale">Продажа</a>
+            <a href="#services">Услуги</a>
+            <a href="#contacts">Контакты</a>
           </nav>
-          <div className="footer__socials">
-            <a href="viber://chat?number=%2B375298417438" aria-label="Написать в Viber" title="Viber">Viber</a>
-            <a href="https://yandex.by/maps/-/CXBObByv" target="_blank" rel="noreferrer" aria-label="Открыть карту" title="Карта">Карта ↗</a>
-          </div>
           <a className="footer__phone" href="tel:+375298417438">
             <small>Связаться с нами</small>+375 29 841-74-38
           </a>
@@ -382,6 +526,84 @@ export default function App() {
           </div>
         </section>
 
+        <section className="sale section" id="sale">
+          <div className="container">
+            <div className="heading-row heading-row--light">
+              <SectionHeading
+                eyebrow="Продажа"
+                text="Актуальное наличие и условия покупки уточняйте по телефону."
+                title="Материалы для ваших задач"
+              />
+              <Button href="tel:+375298417438" kind="secondary">
+                <Icon name="phone" size={18} />
+                Уточнить наличие
+              </Button>
+            </div>
+            <div className="products-grid">
+              {products.map((item) => (
+                <article className="product-card" key={item.name}>
+                  <div className="product-card__image">
+                    <img alt={item.name} loading="lazy" src={item.image} />
+                  </div>
+                  <div className="product-card__body">
+                    <h3>{item.name}</h3>
+                    <p>{item.description}</p>
+                    <a href="tel:+375298417438">
+                      Уточнить наличие
+                      <Icon name="chevron" size={17} />
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <div className="metal-note">
+              <div>
+                <span className="eyebrow">Металлопрокат в ассортименте</span>
+                <h3>Подберём нужный вид продукции</h3>
+              </div>
+              <p>
+                Профильная труба, сварная оцинкованная сетка, шестигранник,
+                арматура, металлические круги, уголок, оцинкованный,
+                горячекатаный и холоднокатаный лист, металлическая полоса.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="services section" id="services">
+          <div className="container">
+            <div className="heading-row">
+              <SectionHeading
+                eyebrow="Услуги"
+                text="Каждый вид техники представлен отдельно — выбирайте подходящий под вашу задачу."
+                title="Техника и производственные услуги"
+              />
+              <Button href="tel:+375295699510" kind="text">
+                Позвонить
+                <Icon name="phone" size={17} />
+              </Button>
+            </div>
+            <div className="services-grid">
+              {services.map((item, index) => (
+                <article className="service-card" key={item.name}>
+                  <div className="service-card__image">
+                    <img alt={item.name} loading="lazy" src={item.image} />
+                    <span>0{index + 1}</span>
+                  </div>
+                  <div className="service-card__body">
+                    <h3>{item.name}</h3>
+                    <p>{item.details}</p>
+                    <Button href="#contacts" kind="text">
+                      Оставить заявку
+                      <Icon name="arrow" size={18} />
+                    </Button>
+                  </div>
+                </article>
+              ))}
+            </div>
+           </div>
+        </section>
+
         <section className="rest section" id="rest">
           <div className="container rest__grid">
             <div className="rest__image-wrap">
@@ -416,15 +638,87 @@ export default function App() {
                   ),
                 )}
               </ul>
-              <Button href="#/directions/guest-house">
-                Подробнее об отдыхе
+              <Button href="#contacts">
+                Связаться по отдыху
                 <Icon name="arrow" size={18} />
               </Button>
             </div>
           </div>
         </section>
 
-        <ContactSection />
+        <section className="practical">
+          <div className="container practical__grid">
+            {[
+              [
+                "01",
+                "Разные направления",
+                "Материалы, техника, производство и отдых в одной компании.",
+              ],
+              [
+                "02",
+                "Понятный выбор",
+                "Каждая категория и услуга представлена отдельно.",
+              ],
+              [
+                "03",
+                "Прямая связь",
+                "Уточняйте наличие и детали напрямую по телефону.",
+              ],
+            ].map(([n, t, p]) => (
+              <div key={n}>
+                <span className="practical__number">{n}</span>
+                <h3>{t}</h3>
+                <p>{p}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="contacts section" id="contacts">
+          <div className="container contacts__grid">
+            <div className="contacts__info">
+              <span className="eyebrow">Контакты</span>
+              <h2>Обсудим вашу задачу</h2>
+              <p className="contacts__lead">
+                Позвоните нам или оставьте номер — подскажем по товарам, технике
+                и отдыху.
+              </p>
+              <div className="contact-item">
+                <span className="contact-item__icon">
+                  <Icon name="phone" />
+                </span>
+                <div>
+                  <small>Телефоны</small>
+                  <a href="tel:+375298417438">+375 29 841-74-38 (Viber)</a>
+                  <a href="tel:+375295699510">+375 29 569-95-10</a>
+                </div>
+              </div>
+              <div className="contact-item">
+                <span className="contact-item__icon">
+                  <Icon name="location" />
+                </span>
+                <div>
+                  <small>Адрес</small>
+                  <address>
+                    старая база КБО, ул. Карла Маркса, 80к4, г. Петриков,
+                    Гомельская область, 247914, Беларусь
+                  </address>
+                </div>
+              </div>
+              <div className="map-placeholder">
+                <Icon name="location" size={28} />
+                <span>Место для подключения карты</span>
+              </div>
+            </div>
+            <div className="contacts__form-wrap">
+              <div className="form-title">
+                <span>Обратная связь</span>
+                <h3>Оставьте заявку</h3>
+              </div>
+              <ContactForm />
+            </div>
+          </div>
+        </section>
       </main>
       <footer className="footer">
         <div className="container footer__top">
@@ -432,13 +726,10 @@ export default function App() {
           <nav aria-label="Навигация в подвале">
             <a href="#top">Главная</a>
             <a href="#directions">Направления</a>
-          <a href="#rest">Отдых в Макаричах</a>
+          <a href="#sale">Продажа</a>
+            <a href="#services">Услуги</a>
             <a href="#contacts">Контакты</a>
           </nav>
-          <div className="footer__socials">
-            <a href="viber://chat?number=%2B375298417438" aria-label="Написать в Viber" title="Viber">Viber</a>
-            <a href="https://yandex.by/maps/-/CXBObByv" target="_blank" rel="noreferrer" aria-label="Открыть карту" title="Карта">Карта ↗</a>
-          </div>
           <a className="footer__phone" href="tel:+375298417438">
             <small>Связаться с нами</small>+375 29 841-74-38
           </a>
