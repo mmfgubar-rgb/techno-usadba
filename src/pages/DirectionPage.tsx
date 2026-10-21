@@ -1,5 +1,4 @@
 import { directionDetails, type DirectionSlug } from "../data/directions"
-import ContactSection from "../ContactSection"
 
 export { directionDetails }
 export type { DirectionSlug }
@@ -23,7 +22,7 @@ export default function DirectionPage({ slug }: { slug: DirectionSlug }) {
         <img src={direction.image} alt={direction.title} />
         <div className="direction-detail__shade" />
         <div className="container direction-detail__hero-content">
-          <a className="direction-detail__back" href={`${import.meta.env.BASE_URL}#directions`}>
+          <a className="direction-detail__back" href="#directions">
             ← Все направления
           </a>
           <span className="eyebrow">ТЕХНОУСАДЬБА · Петриков</span>
@@ -53,7 +52,7 @@ export default function DirectionPage({ slug }: { slug: DirectionSlug }) {
               </section>
             ))}
           </article>
-          <aside className="direction-detail__aside">
+          <aside className="direction-detail__aside" id="contacts">
             <span className="eyebrow">Есть вопросы?</span>
             <h3>Обсудим вашу задачу</h3>
             <p>Позвоните нам, чтобы уточнить наличие, стоимость и условия.</p>
@@ -61,7 +60,7 @@ export default function DirectionPage({ slug }: { slug: DirectionSlug }) {
               +375 29 841-74-38
             </a>
             <a className="direction-detail__phone" href="tel:+375295699510">
-              +375 29 659-95-10
+              +375 29 569-95-10
             </a>
           </aside>
         </div>
@@ -82,7 +81,6 @@ export default function DirectionPage({ slug }: { slug: DirectionSlug }) {
           </div>
         </div>
       </section>
-      <ContactSection />
     </main>
   )
 }
