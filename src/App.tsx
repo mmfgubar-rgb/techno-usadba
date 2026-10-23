@@ -145,7 +145,7 @@ const directions = [
     text: "Отдых рядом с рекой Припять",
     image: image("estate-living.jpg"),
     slug: "guest-house",
-    href: "#/directions/guest-house",
+    href: "#/services/agroestate",
   },
   {
     title: "Туристический прокат",
@@ -508,6 +508,7 @@ export default function App() {
   const detailSlug = detailMatch?.[2]
 
   if (detailSlug && detailType === "directions") {
+    if (detailSlug === "guest-house") return <ContentRoute type="services" slug="agroestate" />
     return <DirectionRoute slug={detailSlug} />
   }
   if (detailSlug && (detailType === "catalog" || detailType === "services")) {
