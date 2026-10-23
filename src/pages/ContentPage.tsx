@@ -1,3 +1,4 @@
+import { ContactSection, ImageLinkCards, PhotoGallery } from "./DetailExtras"
 export type ContentType = "catalog" | "services"
 
 export type ContentInfo = {
@@ -200,12 +201,10 @@ export default function ContentPage({ content }: { content: ContentInfo }) {
             ))}
             {content.related && <div className="content-related">
               <h3>Также может быть полезно</h3>
-              <div className="direction-detail__links">
-                {content.related.map(item => <a href={item.href} key={item.href}>{item.label}<span aria-hidden="true">↗</span></a>)}
-              </div>
+              <ImageLinkCards items={content.related} />
             </div>}
           </article>
-          <aside className="direction-detail__aside" id="contacts">
+          <aside className="direction-detail__aside">
             <span className="eyebrow">Есть вопросы?</span>
             <h3>{isCatalog ? "Уточнить наличие и доставку" : "Обсудим вашу задачу"}</h3>
             <p>Позвоните нам, чтобы уточнить стоимость, наличие и условия.</p>
@@ -214,6 +213,8 @@ export default function ContentPage({ content }: { content: ContentInfo }) {
           </aside>
         </div>
       </section>
+      <PhotoGallery title={content.title} images={[content.image.replace(`${import.meta.env.BASE_URL}images/`, ""), ...(content.type === "catalog" ? ["sand.jpg", "granite.jpg", "screenings.jpg", "metal.jpg", "feed.webp"] : ["dump-truck.webp", "crane.jpg", "trailer.jpg", "front_mtz.jpg", "amcodor.jpg", "usadba.jpg", "sawmill.jpg", "tourism.jpg"])]} />
+      <ContactSection />
     </main>
   )
 }

@@ -1,3 +1,4 @@
+import { ContactSection, ImageLinkCards, PhotoGallery } from "./DetailExtras"
 import { directionDetails, type DirectionSlug } from "../data/directions"
 
 export { directionDetails }
@@ -54,57 +55,46 @@ export default function DirectionPage({ slug }: { slug: DirectionSlug }) {
             {slug === "special-machinery" && (
               <div className="content-related">
                 <h3>Выберите технику</h3>
-                <div className="direction-detail__links">
-                  {[
-                    ["Грузовой самосвал", "#/services/dump-truck"],
-                    ["Автокран", "#/services/mobile-crane"],
-                    ["Прокат прицепа МЗСА", "#/services/trailer-rental"],
-                    ["Фронтальный погрузчик", "#/services/front-loader"],
-                    ["Мини-экскаватор-погрузчик", "#/services/backhoe-loader"],
-                    ["Фронтальный погрузчик АМКОДОР", "#/services/amkodor-loader"],
-                  ].map(([label, href]) => <a href={href} key={href}>{label}<span aria-hidden="true">↗</span></a>)}
-                </div>
+                <ImageLinkCards items={[
+                  { label: "Грузовой самосвал", href: "#/services/dump-truck" },
+                  { label: "Автокран", href: "#/services/mobile-crane" },
+                  { label: "Прокат прицепа МЗСА", href: "#/services/trailer-rental" },
+                  { label: "Фронтальный погрузчик", href: "#/services/front-loader" },
+                  { label: "Мини-экскаватор-погрузчик", href: "#/services/backhoe-loader" },
+                  { label: "Фронтальный погрузчик АМКОДОР", href: "#/services/amkodor-loader" },
+                ]} />
               </div>
             )}
             {slug === "building-materials" && (
               <div className="content-related">
                 <h3>Материалы в продаже</h3>
-                <div className="direction-detail__links">
-                  {[
-                    ["Песок строительный", "#/catalog/sand"],
-                    ["Щебень гранитный", "#/catalog/crushed-stone"],
-                    ["Отсев", "#/catalog/screenings"],
-                  ].map(([label, href]) => <a href={href} key={href}>{label}<span aria-hidden="true">↗</span></a>)}
-                </div>
+                <ImageLinkCards items={[
+                  { label: "Песок строительный", href: "#/catalog/sand" },
+                  { label: "Щебень гранитный", href: "#/catalog/crushed-stone" },
+                  { label: "Отсев", href: "#/catalog/screenings" },
+                ]} />
               </div>
             )}
             {slug === "metal-products" && (
               <div className="content-related">
                 <h3>Каталог металлопроката</h3>
-                <div className="direction-detail__links">
-                  <a href="#/catalog/metal">Посмотреть ассортимент и условия заказа<span aria-hidden="true">↗</span></a>
-                </div>
+                <ImageLinkCards items={[{ label: "Металлопрокат", href: "#/catalog/metal" }]} />
               </div>
             )}
             {slug === "animal-feed" && (
               <div className="content-related">
                 <h3>Комбикорма в продаже</h3>
-                <div className="direction-detail__links">
-                  <a href="#/catalog/feed">Посмотреть ассортимент<span aria-hidden="true">↗</span></a>
-                </div>
+                <ImageLinkCards items={[{ label: "Комбикорма", href: "#/catalog/feed" }]} />
               </div>
             )}
             {slug === "guest-house" && (
               <div className="content-related">
                 <h3>Планируете отдых?</h3>
-                <div className="direction-detail__links">
-                  <a href="#/services/agroestate">Подробнее об агроусадьбе «Припять»<span aria-hidden="true">↗</span></a>
-                  <a href="#/services/tourism">Туристические услуги и прокат<span aria-hidden="true">↗</span></a>
-                </div>
+                <ImageLinkCards items={[{ label: "Агроусадьба «Припять»", href: "#/services/agroestate" }, { label: "Туристические услуги", href: "#/services/tourism" }]} />
               </div>
             )}
           </article>
-          <aside className="direction-detail__aside" id="contacts">
+          <aside className="direction-detail__aside">
             <span className="eyebrow">Есть вопросы?</span>
             <h3>Обсудим вашу задачу</h3>
             <p>Позвоните нам, чтобы уточнить наличие, стоимость и условия.</p>
@@ -124,15 +114,11 @@ export default function DirectionPage({ slug }: { slug: DirectionSlug }) {
             <span className="eyebrow">Другие направления</span>
             <h2>Чем ещё можем помочь</h2>
           </div>
-          <div className="direction-detail__links">
-            {otherDirections.filter((item) => item.slug !== slug).map((item) => (
-              <a href={`#/directions/${item.slug}`} key={item.slug}>
-                {item.label}<span aria-hidden="true">↗</span>
-              </a>
-            ))}
-          </div>
+          <ImageLinkCards items={otherDirections.filter((item) => item.slug !== slug).map((item) => ({ label: item.label, href: item.slug === "guest-house" ? "#/services/agroestate" : `#/directions/${item.slug}` }))} />
         </div>
       </section>
+      <PhotoGallery title={direction.title} images={[direction.image.replace(`${import.meta.env.BASE_URL}images/`, ""), ...(slug === "building-materials" ? ["sand.jpg", "granite.jpg", "screenings.jpg"] : slug === "metal-products" ? ["metal.jpg", "gear.jpg"] : slug === "animal-feed" ? ["feed.webp"] : slug === "special-machinery" ? ["dump-truck.webp", "crane.jpg", "trailer.jpg", "front_mtz.jpg", "mini-excavator.jpg", "amcodor.jpg"] : slug === "guest-house" ? ["usadba.jpg", "estate-bedroom.jpg", "estate-living.jpg", "bath.jpg", "tourism.jpg"] : slug === "sawmill" ? ["sawmill.jpg"] : ["tourism.jpg", "gear.jpg"])]} />
+      <ContactSection />
     </main>
   )
 }
