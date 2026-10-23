@@ -209,7 +209,7 @@ export default function ContentPage({ content }: { content: ContentInfo }) {
             <h3>{isCatalog ? "Уточнить наличие и доставку" : "Обсудим вашу задачу"}</h3>
             <p>Позвоните нам, чтобы уточнить стоимость, наличие и условия.</p>
             <a className="button button--primary" href="tel:+375298417438">+375 29 841-74-38</a>
-            <a className="direction-detail__phone" href="tel:+375295699510">+375 29 569-95-10</a>
+            <a className="direction-detail__phone" href="tel:+375296599510">+375 29 659-95-10</a>
           </aside>
         </div>
       </section>
