@@ -51,6 +51,58 @@ export default function DirectionPage({ slug }: { slug: DirectionSlug }) {
                 )}
               </section>
             ))}
+            {slug === "special-machinery" && (
+              <div className="content-related">
+                <h3>Выберите технику</h3>
+                <div className="direction-detail__links">
+                  {[
+                    ["Грузовой самосвал", "#/services/dump-truck"],
+                    ["Автокран", "#/services/mobile-crane"],
+                    ["Прокат прицепа МЗСА", "#/services/trailer-rental"],
+                    ["Фронтальный погрузчик", "#/services/front-loader"],
+                    ["Мини-экскаватор-погрузчик", "#/services/backhoe-loader"],
+                    ["Фронтальный погрузчик АМКОДОР", "#/services/amkodor-loader"],
+                  ].map(([label, href]) => <a href={href} key={href}>{label}<span aria-hidden="true">↗</span></a>)}
+                </div>
+              </div>
+            )}
+            {slug === "building-materials" && (
+              <div className="content-related">
+                <h3>Материалы в продаже</h3>
+                <div className="direction-detail__links">
+                  {[
+                    ["Песок строительный", "#/catalog/sand"],
+                    ["Щебень гранитный", "#/catalog/crushed-stone"],
+                    ["Отсев", "#/catalog/screenings"],
+                  ].map(([label, href]) => <a href={href} key={href}>{label}<span aria-hidden="true">↗</span></a>)}
+                </div>
+              </div>
+            )}
+            {slug === "metal-products" && (
+              <div className="content-related">
+                <h3>Каталог металлопроката</h3>
+                <div className="direction-detail__links">
+                  <a href="#/catalog/metal">Посмотреть ассортимент и условия заказа<span aria-hidden="true">↗</span></a>
+                </div>
+              </div>
+            )}
+            {slug === "animal-feed" && (
+              <div className="content-related">
+                <h3>Комбикорма в продаже</h3>
+                <div className="direction-detail__links">
+                  <a href="#/catalog/feed">Посмотреть ассортимент<span aria-hidden="true">↗</span></a>
+                </div>
+              </div>
+            )}
+            {slug === "guest-house" && (
+              <div className="content-related">
+                <h3>Планируете отдых?</h3>
+                <div className="direction-detail__links">
+                  <a href="#/services/agroestate">Подробнее об агроусадьбе «Припять»<span aria-hidden="true">↗</span></a>
+                  <a href="#/services/tourism">Туристические услуги и прокат<span aria-hidden="true">↗</span></a>
+                </div>
+              </div>
+            )}
           </article>
           <aside className="direction-detail__aside" id="contacts">
             <span className="eyebrow">Есть вопросы?</span>
