@@ -56,3 +56,65 @@
 .direction-detail--missing{min-height:60vh;padding:100px 0 60px}
 @media(max-width:820px){.direction-detail__layout{gap:36px;grid-template-columns:1fr}.direction-detail__aside{position:static}.direction-detail__links{grid-template-columns:repeat(2,minmax(0,1fr))}.direction-detail__hero{min-height:450px}}
 @media(max-width:560px){.direction-detail{padding-top:68px}.direction-detail__hero{min-height:430px}.direction-detail__hero-content{padding-bottom:42px;padding-top:34px}.direction-detail__back{margin-bottom:38px}.direction-detail__hero-content>p{font-size:15px}.direction-detail__links{grid-template-columns:1fr}.direction-detail__aside{padding:24px}}
+
+
+/* Internal catalogue and service pages; homepage layout remains unchanged. */
+.product-card,
+.service-card {
+  display: block;
+  text-decoration: none;
+}
+.product-card__link {
+  align-items: center;
+  color: var(--forest);
+  display: flex;
+  font-size: 12px;
+  font-weight: 800;
+  gap: 5px;
+  margin-top: auto;
+  padding-top: 20px;
+}
+.service-card__link {
+  align-items: center;
+  display: inline-flex;
+  gap: 8px;
+}
+.content-related {
+  border-top: 1px solid var(--line);
+  margin-top: 18px;
+  padding-top: 28px;
+}
+.content-related > h3 {
+  color: var(--forest);
+  font-size: 22px;
+  margin: 0 0 18px;
+}
+.content-related .direction-detail__links {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.content-related .direction-detail__links a {
+  align-items: center;
+  background: var(--cream);
+  border-radius: 12px;
+  color: var(--forest);
+  display: flex;
+  font-size: 13px;
+  font-weight: 700;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+  transition: background .2s, transform .2s;
+}
+.content-related .direction-detail__links a:hover {
+  background: #e9eee6;
+  transform: translateY(-2px);
+}
+@media(max-width:820px) {
+  .direction-detail__layout { gap: 42px; grid-template-columns: 1fr; }
+  .direction-detail__main { max-width: none; }
+}
+@media(max-width:560px) {
+  .content-related .direction-detail__links { grid-template-columns: 1fr; }
+}

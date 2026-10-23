@@ -1,5 +1,6 @@
 import { FormEvent, ReactNode, useEffect, useState } from "react"
 import DirectionPage from "./pages/DirectionPage"
+import ContentPage, { contentDetails, type ContentType } from "./pages/ContentPage"
 import { directionDetails, type DirectionSlug } from "./data/directions"
 
 const image = (file: string) => `${import.meta.env.BASE_URL}images/${file}`
@@ -158,27 +159,32 @@ const directions = [
 const products = [
   {
     name: "Песок строительный",
+    slug: "sand",
     description: "Для выполнения строительных работ и подсыпки",
     image: image("sand.jpg"),
   },
   {
     name: "Щебень гранитный",
+    slug: "crushed-stone",
     description: "Гранитный щебень разной фракции",
     image: image("granite.jpg"),
   },
   {
     name: "Отсев",
+    slug: "screenings",
     description: "Мелкий сыпучий материал с размером зёрен от 0 до 5 мм",
     image: image("screenings.jpg"),
   },
   {
     name: "Комбикорма",
+    slug: "feed",
     description:
       "Корма для домашнего хозяйства, молотые и гранулированные в ассортименте",
     image: image("feed.webp"),
   },
   {
     name: "Металлопрокат",
+    slug: "metal",
     description: "Профильная труба, арматура, уголок, лист и другая продукция",
     image: image("metal.jpg"),
   },
@@ -188,36 +194,42 @@ const services = [
   {
     number: "01",
     name: "Грузовой самосвал",
+    slug: "dump-truck",
     details: "10 тонн · доставка сыпучих материалов с самосвальной выгрузкой",
     image: image("dump-truck.webp"),
   },
   {
     number: "02",
     name: "Автокран",
+    slug: "mobile-crane",
     details: "Грузоподъёмность 10 тонн · вылет стрелы 15 метров",
     image: image("crane.jpg"),
   },
   {
     number: "03",
     name: "Прокат прицепа МЗСА",
+    slug: "trailer-rental",
     details: "2,45 × 1,51 м · грузоподъёмность до 750 кг",
     image: image("trailer.jpg"),
   },
   {
     number: "04",
     name: "Фронтальный погрузчик",
+    slug: "front-loader",
     details: "Погрузка, разгрузка, планировка грунта, расчистка снега",
     image: image("front_mtz.jpg"),
   },
   {
     number: "05",
     name: "Мини-экскаватор-погрузчик",
+    slug: "backhoe-loader",
     details: "Грузоподъёмность 400 кг · глубина копания 1,5 метра",
     image: image("loader.png"),
   },
   {
     number: "06",
     name: "Фронтальный погрузчик",
+    slug: "amkodor-loader",
     points: [
       "Погрузка и разгрузка, паллетные вилы, снеговая лопата",
       "Расчистка снега",
@@ -228,6 +240,7 @@ const services = [
   {
     number: "07",
     name: "Агроусадьба д. Макаричи",
+    slug: "agroestate",
     points: [
       "Дом для отдыха со всеми удобствами",
       "Баня",
@@ -238,12 +251,14 @@ const services = [
   {
     number: "08",
     name: "Пилорама",
+    slug: "sawmill",
     details: "Распиловка древесины · доставка и реализация опилок",
     image: image("sawmill.jpg"),
   },
   {
     number: "09",
     name: "Туристические услуги",
+    slug: "tourism",
     details: "Прокат туристического снаряжения, лодок и катамарана",
     image: image("gear.jpg"),
   },
@@ -423,6 +438,48 @@ function DirectionRoute({ slug }: { slug: string }) {
   )
 }
 
+function ContentRoute({ type, slug }: { type: ContentType; slug: string }) {
+  const content = contentDetails[`${type}/${slug}`]
+  if (!content) {
+    return (
+      <div id="top">
+        <Header />
+        <main className="direction-detail direction-detail--missing">
+          <div className="container">
+            <p>Страница не найдена.</p>
+            <a className="button button--primary" href="#top">Вернуться на главную</a>
+          </div>
+        </main>
+      </div>
+    )
+  }
+  return (
+    <div id="top">
+      <Header />
+      <ContentPage content={content} />
+      <footer className="footer">
+        <div className="container footer__top">
+          <Brand inverse />
+          <nav aria-label="Навигация в подвале">
+            <a href="#top">Главная</a>
+            <a href="#directions">Направления</a>
+            <a href="#sale">Продажа</a>
+            <a href="#services">Услуги</a>
+            <a href="#contacts">Контакты</a>
+          </nav>
+          <a className="footer__phone" href="tel:+375298417438">
+            <small>Связаться с нами</small>+375 29 841-74-38
+          </a>
+        </div>
+        <div className="container footer__bottom">
+          <span>© 2026 ТЕХНОУСАДЬБА</span>
+          <span>Петриков, Беларусь</span>
+        </div>
+      </footer>
+    </div>
+  )
+}
+
 export default function App() {
   const [currentHash, setCurrentHash] = useState(
     typeof window === "undefined" ? "" : window.location.hash,
@@ -435,7 +492,7 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    if (currentHash.startsWith("#/directions/")) {
+    if (currentHash.startsWith("#/directions/") || currentHash.startsWith("#/catalog/") || currentHash.startsWith("#/services/")) {
       // Each detail page should open at the top, not at the previous scroll position.
       window.scrollTo({ top: 0, left: 0, behavior: "auto" })
       return
@@ -446,11 +503,15 @@ export default function App() {
     document.getElementById(targetId)?.scrollIntoView()
   }, [currentHash])
 
-  const detailMatch = currentHash.match(/^#\/directions\/([^/]+)$/)
-  const detailSlug = detailMatch?.[1]
+  const detailMatch = currentHash.match(/^#\/(directions|catalog|services)\/([^/]+)$/)
+  const detailType = detailMatch?.[1]
+  const detailSlug = detailMatch?.[2]
 
-  if (detailSlug) {
+  if (detailSlug && detailType === "directions") {
     return <DirectionRoute slug={detailSlug} />
+  }
+  if (detailSlug && (detailType === "catalog" || detailType === "services")) {
+    return <ContentRoute type={detailType} slug={detailSlug} />
   }
 
   return (
@@ -541,19 +602,19 @@ export default function App() {
             </div>
             <div className="products-grid">
               {products.map((item) => (
-                <article className="product-card" key={item.name}>
+                <a className="product-card" href={`#/catalog/${item.slug}`} key={item.name}>
                   <div className="product-card__image">
                     <img alt={item.name} loading="lazy" src={item.image} />
                   </div>
                   <div className="product-card__body">
                     <h3>{item.name}</h3>
                     <p>{item.description}</p>
-                    <a href="tel:+375298417438">
+                    <span className="product-card__link">
                       Уточнить наличие
                       <Icon name="chevron" size={17} />
-                    </a>
+                    </span>
                   </div>
-                </article>
+                </a>
               ))}
             </div>
             <div className="metal-note">
@@ -585,7 +646,7 @@ export default function App() {
             </div>
             <div className="services-grid">
               {services.map((item, index) => (
-                <article className="service-card" key={item.name}>
+                <a className="service-card" href={`#/services/${item.slug}`} key={item.slug}>
                   <div className="service-card__image">
                     <img alt={item.name} loading="lazy" src={item.image} />
                     <span>0{index + 1}</span>
@@ -593,12 +654,12 @@ export default function App() {
                   <div className="service-card__body">
                     <h3>{item.name}</h3>
                     <p>{item.details}</p>
-                    <Button href="#contacts" kind="text">
+                    <span className="button button--text service-card__link">
                       Оставить заявку
                       <Icon name="arrow" size={18} />
-                    </Button>
+                    </span>
                   </div>
-                </article>
+                </a>
               ))}
             </div>
            </div>
