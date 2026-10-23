@@ -29,7 +29,7 @@ export function ContactSection() {
     <div className="container contacts__grid">
       <div className="contacts__info"><span className="eyebrow">Контакты</span><h2>Обсудим вашу задачу</h2>
         <p className="contacts__lead">Позвоните нам или оставьте номер — подскажем по товарам, технике и отдыху.</p>
-        <div className="contact-item"><span className="contact-item__icon">☎</span><div><small>Телефоны</small><a href="tel:+375298417438">+375 29 841-74-38 (Viber)</a><a href="tel:+375295699510">+375 29 569-95-10</a></div></div>
+        <div className="contact-item"><span className="contact-item__icon">☎</span><div><small>Телефоны</small><a href="tel:+375298417438">+375 29 841-74-38 (Viber)</a><a href="tel:+375296599510">+375 29 659-95-10</a></div></div>
         <div className="contact-item"><span className="contact-item__icon">⌖</span><div><small>Адрес</small><address>старая база КБО, ул. Карла Маркса, 80к4, г. Петриков, Гомельская область, 247914, Беларусь</address></div></div>
         <a className="map-placeholder" href="https://yandex.by/maps/-/CXBObByv" target="_blank" rel="noreferrer"><span style={{fontSize:28}}>⌖</span><span>Открыть карту проезда</span></a>
       </div>
