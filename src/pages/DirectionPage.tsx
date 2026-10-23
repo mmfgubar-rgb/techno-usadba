@@ -1,4 +1,4 @@
-import { ContactSection, ImageLinkCards, PhotoGallery } from "./DetailExtras"
+import { ContactSection, ImageLinkCards } from "./DetailExtras"
 import { directionDetails, type DirectionSlug } from "../data/directions"
 
 export { directionDetails }
@@ -117,7 +117,6 @@ export default function DirectionPage({ slug }: { slug: DirectionSlug }) {
           <ImageLinkCards items={otherDirections.filter((item) => item.slug !== slug).map((item) => ({ label: item.label, href: item.slug === "guest-house" ? "#/services/agroestate" : `#/directions/${item.slug}` }))} />
         </div>
       </section>
-      <PhotoGallery title={direction.title} images={[direction.image.replace(`${import.meta.env.BASE_URL}images/`, ""), ...(slug === "building-materials" ? ["sand.jpg", "granite.jpg", "screenings.jpg"] : slug === "metal-products" ? ["metal.jpg", "gear.jpg"] : slug === "animal-feed" ? ["feed.webp"] : slug === "special-machinery" ? ["dump-truck.webp", "crane.jpg", "trailer.jpg", "front_mtz.jpg", "mini-excavator.jpg", "amcodor.jpg"] : slug === "guest-house" ? ["usadba.jpg", "estate-bedroom.jpg", "estate-living.jpg", "bath.jpg", "tourism.jpg"] : slug === "sawmill" ? ["sawmill.jpg"] : ["tourism.jpg", "gear.jpg"])]} />
       <ContactSection />
     </main>
   )

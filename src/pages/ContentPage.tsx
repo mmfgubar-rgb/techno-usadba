@@ -1,4 +1,4 @@
-import { ContactSection, ImageLinkCards, PhotoGallery } from "./DetailExtras"
+import { ContactSection, ImageLinkCards } from "./DetailExtras"
 export type ContentType = "catalog" | "services"
 
 export type ContentInfo = {
@@ -213,7 +213,6 @@ export default function ContentPage({ content }: { content: ContentInfo }) {
           </aside>
         </div>
       </section>
-      <PhotoGallery title={content.title} images={[content.image.replace(`${import.meta.env.BASE_URL}images/`, ""), ...(content.type === "catalog" ? ["sand.jpg", "granite.jpg", "screenings.jpg", "metal.jpg", "feed.webp"] : ["dump-truck.webp", "crane.jpg", "trailer.jpg", "front_mtz.jpg", "amcodor.jpg", "usadba.jpg", "sawmill.jpg", "tourism.jpg"])]} />
       <ContactSection />
     </main>
   )

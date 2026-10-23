@@ -22,16 +22,6 @@ export function ImageLinkCards({ items }: { items: { label: string; href: string
   </div>
 }
 
-export function PhotoGallery({ title, images }: { title: string; images: string[] }) {
-  const unique = [...new Set(images)].slice(0, 6)
-  return <section className="detail-gallery section">
-    <div className="container">
-      <div className="section-heading"><span className="eyebrow">Фотографии</span><h2>Галерея — {title}</h2><p>Фотографии направления, товаров и оборудования.</p></div>
-      <div className="detail-gallery__grid">{unique.map((file, i) => <figure key={file}><img src={image(file)} alt={`${title} — фото ${i + 1}`} loading="lazy" /></figure>)}</div>
-    </div>
-  </section>
-}
-
 export function ContactSection() {
   const [sent, setSent] = useState(false)
   const submit = (event: FormEvent<HTMLFormElement>) => { event.preventDefault(); setSent(true) }
