@@ -640,7 +640,7 @@ export default function App() {
                 text="Каждый вид техники представлен отдельно — выбирайте подходящий под вашу задачу."
                 title="Техника и производственные услуги"
               />
-              <Button href="tel:+375295699510" kind="text">
+              <Button href="tel:+375296599510" kind="text">
                 Позвонить
                 <Icon name="phone" size={17} />
               </Button>
@@ -752,7 +752,7 @@ export default function App() {
                 <div>
                   <small>Телефоны</small>
                   <a href="tel:+375298417438">+375 29 841-74-38 (Viber)</a>
-                  <a href="tel:+375295699510">+375 29 569-95-10</a>
+                  <a href="tel:+375296599510">+375 29 659-95-10</a>
                 </div>
               </div>
               <div className="contact-item">
